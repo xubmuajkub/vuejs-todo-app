@@ -1,27 +1,14 @@
 <template>
   <div class="container" id="app">
-    <img class="logo" src="./assets/logo.png" width="100">
-    <todo-list></todo-list>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-import TodoList from './components/TodoList'
-
-import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-Vue.use(BootstrapVue)
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    TodoList
   }
 }
 </script>
