@@ -28,7 +28,22 @@ const router = new VueRouter({
                 component: TodoDetail
             }
         ]
-    }
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: About
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: Register
+    },
 ]
 })
 
