@@ -11,12 +11,13 @@
         </div>
         <div class="col-md-12">
             <b-button class="rounded-0" variant="primary" @click="saveTodo()">Save</b-button>
-            <b-button class="rounded-0" variant="warning" @click="cancel()">Cancel</b-button>
+            <b-button class="rounded-0" variant="warning" @click="backToList()">Cancel</b-button>
         </div>
     </div>
 </template>
 
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex'
 export default {
     name: 'TodoForm',
     props: {
@@ -26,24 +27,66 @@ export default {
     },
     data () {
         return {
-            newTodo: {
-                id: 0,
-                title: '',
-                description: ''
-            },
-            editTodo: this.todo !== null || this.todo !== undefined ? this.todo: this.newTodo,
+            editTodo : this.todo !== undefined ? {
+                id: this.todo.id,
+                title: this.todo.title,
+                description: this.todo.description,
+                completed: this.todo.completed
+            } : {
+                id: 0, title: null, description: null, completed: false
+            }
         }
+        
+    },
+    computed: {
+        ...mapGetters('todolist', ['increment'])
     },
     methods: {
+        ...mapActions('todolist', ['addTodo', 'updateTodo']),
+
         saveTodo() {
-            this.newTodo = {
+
+            let newTodo = {
                 id: this.editTodo.id,
                 title: this.editTodo.title,
-                description: this.editTodo.description
+                description: this.editTodo.description,
+                completed: this.editTodo.completed
             }
+            
+            if (!this.isValidTodo(newTodo)) {
+                return
+            }
+
+            if (newTodo.title == null) {
+                newTodo.title = 'Untitled'
+            } else if (newTodo.title.trim().length == 0) {
+                newTodo.title = 'Untitled'
+            }
+
+            if (this.todo == undefined) {
+                newTodo.id = this.increment
+                this.addTodo(newTodo)
+            } else {
+                this.updateTodo(newTodo)
+            }
+            
+            this.backToList()
         },
-        cancel() {
+        backToList() {
             this.$router.push({name: 'todo-list'})
+        },
+        isValidTodo(todo) {
+            if (todo.title === null && todo.description === null) {
+                return false
+            }
+            
+            if (todo.description !== null) {
+                if (todo.description.trim().length == 0) {
+                    return false
+                }
+            }
+
+            return true
         }
     }
 

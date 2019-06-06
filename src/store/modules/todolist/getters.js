@@ -8,7 +8,10 @@ const getTodo = state => id => {
     }
 }
 
+const increment = state => { return state.newId }
+
 export default {
     getTodoList,
-    getTodo
+    getTodo,
+    increment
 }

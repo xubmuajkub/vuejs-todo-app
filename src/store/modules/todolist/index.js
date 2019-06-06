@@ -16,7 +16,8 @@ const state = {
             description: 'Focusing on reading novel',
             completed: false
         }
-    ]
+    ],
+    newId: 3
 }
 
 export default {
