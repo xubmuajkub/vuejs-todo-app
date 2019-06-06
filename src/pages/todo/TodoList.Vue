@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <router-link :to="{name: 'add'}">
-                <button class="btn btn-outline-info">Add Todo</button>
+                <button class="rounded-0 btn btn-outline-info">Add Todo</button>
             </router-link>
         </div>
         <div class="col-md-12">

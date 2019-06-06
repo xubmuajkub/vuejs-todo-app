@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="row">
         <div class="col-md-12">
             <div class="form-group">
                 <input type="text" v-model="editTodo.title" class="form-control rounded-0" placeholder="Title">
@@ -10,8 +10,7 @@
             <input type="hidden" v-model="editTodo.id">
         </div>
         <div class="col-md-12">
-            <b-button class="rounded-0" variant="primary" @click="saveTodo()">Save</b-button>
-            <b-button class="rounded-0" variant="warning" @click="backToList()">Cancel</b-button>
+            <b-button class="rounded-0" variant="outline-primary" @click="saveTodo()">Save</b-button>
         </div>
     </div>
 </template>
@@ -52,25 +51,31 @@ export default {
                 description: this.editTodo.description,
                 completed: this.editTodo.completed
             }
-            
-            if (!this.isValidTodo(newTodo)) {
-                return
-            }
-
-            if (newTodo.title == null) {
-                newTodo.title = 'Untitled'
-            } else if (newTodo.title.trim().length == 0) {
-                newTodo.title = 'Untitled'
-            }
 
             if (this.todo == undefined) {
                 newTodo.id = this.increment
-                this.addTodo(newTodo)
-            } else {
-                this.updateTodo(newTodo)
             }
+
+            this.$emit('save', newTodo)
             
-            this.backToList()
+            // if (!this.isValidTodo(newTodo)) {
+            //     return
+            // }
+
+            // if (newTodo.title == null) {
+            //     newTodo.title = 'Untitled'
+            // } else if (newTodo.title.trim().length == 0) {
+            //     newTodo.title = 'Untitled'
+            // }
+
+            // if (this.todo == undefined) {
+            //     newTodo.id = this.increment
+            //     this.addTodo(newTodo)
+            // } else {
+            //     this.updateTodo(newTodo)
+            // }
+            
+            // this.backToList()
         },
         backToList() {
             this.$router.push({name: 'todo-list'})

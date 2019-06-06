@@ -1,6 +1,7 @@
 <template>
     <div class="row">
         <div class="col-md-12">
+            <b-button class="rounded-0 mb-3" variant="outline-warning" @click="backToList()">Back</b-button>
             <TodoForm
                 v-bind:todo="getTodo(this.$route.params.id)"
             ></TodoForm>
@@ -25,7 +26,10 @@ export default {
         ...mapGetters('todolist', ['getTodo'])
     },
     methods: {
-        ...mapActions('todolist', [''])
+        ...mapActions('todolist', ['']),
+        backToList() {
+            this.$router.push({name: 'todo-list'})
+        }
     }
 }
 
