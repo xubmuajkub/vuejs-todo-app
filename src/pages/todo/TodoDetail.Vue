@@ -4,6 +4,7 @@
             <b-button class="rounded-0 mb-3" variant="outline-warning" @click="backToList()">Back</b-button>
             <TodoForm
                 v-bind:todo="getTodo(this.$route.params.id)"
+                @save="saveTodo"
             ></TodoForm>
         </div>
     </div>
@@ -23,10 +24,41 @@ export default {
         }
     },
     computed: {
-        ...mapGetters('todolist', ['getTodo'])
+        ...mapGetters('todolist', ['getTodo', 'getTodoList'])
     },
     methods: {
-        ...mapActions('todolist', ['']),
+        ...mapActions('todolist', ['updateTodo']),
+        saveTodo(newTodo) {
+            if (!this.isValidTodo(newTodo)) {
+                return
+            }
+            if (newTodo.title == null) {
+                newTodo.title = 'Untitled'
+            } else if (newTodo.title.trim().length == 0) {
+                newTodo.title = 'Untitled'
+            }
+            if (this.getTodoList.filter(item => item.id === newTodo.id).length > 0) {
+                let current = this.getTodoList.filter(item => item.id === newTodo.id)[0]
+                if (current.title === newTodo.title && current.description === newTodo.description) {
+                    this.backToList()
+                    return
+                }
+            }
+            
+            this.updateTodo(newTodo)
+            this.backToList()
+        },
+        isValidTodo(todo) {
+            if (todo.title === null && todo.description === null) {
+                return false
+            }
+            if (todo.description !== null) {
+                if (todo.description.trim().length == 0) {
+                    return false
+                }
+            }
+            return true
+        },
         backToList() {
             this.$router.push({name: 'todo-list'})
         }

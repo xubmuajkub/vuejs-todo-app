@@ -13,7 +13,11 @@
             <tr v-for="todo in getTodoList" :key="todo.id"
                 :class="{completed : todo.completed}">
                 <td>
-                    <input type="checkbox" :value="todo.id" v-model="marked" @change="markAsDone(todo.id)">
+                    <input type="checkbox" 
+                        :value="todo.id"
+                        :checked="todo.completed"
+                        v-model="marked"
+                        @change="markAsDone(todo.id)">
                 </td>
                 <router-link 
                     tag="td"
@@ -56,9 +60,15 @@ export default {
         }
     },
     computed: {
-        ...mapState('todolist', ['todos']),
         ...mapGetters('todolist', ['getTodoList', 'getTodo']),
         noRemaining() {
+            this.getTodoList.forEach(todo => {
+                if (todo.completed) {
+                    if (!this.marked.includes(todo.id)) {
+                        this.marked.push(todo.id)
+                    }
+                }
+            })
             return this.marked.length === this.getTodoList.length
         }
     },

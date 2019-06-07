@@ -26,39 +26,32 @@ export default {
         ...mapGetters('todolist', [])
     },
     methods: {
-        ...mapActions('todolist', []),
+        ...mapActions('todolist', ['addTodo']),
         backToList() {
             this.$router.push({name: 'todo-list'})
         },
         saveTodo(newTodo) {
-            
-            console.log(newTodo)
-
-            // let newTodo = {
-            //     id: this.editTodo.id,
-            //     title: this.editTodo.title,
-            //     description: this.editTodo.description,
-            //     completed: this.editTodo.completed
-            // }
-            
-            // if (!this.isValidTodo(newTodo)) {
-            //     return
-            // }
-
-            // if (newTodo.title == null) {
-            //     newTodo.title = 'Untitled'
-            // } else if (newTodo.title.trim().length == 0) {
-            //     newTodo.title = 'Untitled'
-            // }
-
-            // if (this.todo == undefined) {
-            //     newTodo.id = this.increment
-            //     this.addTodo(newTodo)
-            // } else {
-            //     this.updateTodo(newTodo)
-            // }
-            
+            if (!this.isValidTodo(newTodo)) {
+                return
+            }
+            if (newTodo.title == null) {
+                newTodo.title = 'Untitled'
+            } else if (newTodo.title.trim().length == 0) {
+                newTodo.title = 'Untitled'
+            }
+            this.addTodo(newTodo)
             this.backToList()
+        },
+        isValidTodo(todo) {
+            if (todo.title === null && todo.description === null) {
+                return false
+            }
+            if (todo.description !== null) {
+                if (todo.description.trim().length == 0) {
+                    return false
+                }
+            }
+            return true
         }
     }
 }

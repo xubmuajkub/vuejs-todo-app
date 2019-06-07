@@ -35,63 +35,19 @@ export default {
                 id: 0, title: null, description: null, completed: false
             }
         }
-        
     },
     computed: {
         ...mapGetters('todolist', ['increment'])
     },
     methods: {
-        ...mapActions('todolist', ['addTodo', 'updateTodo']),
-
         saveTodo() {
-
-            let newTodo = {
-                id: this.editTodo.id,
-                title: this.editTodo.title,
-                description: this.editTodo.description,
-                completed: this.editTodo.completed
-            }
-
             if (this.todo == undefined) {
-                newTodo.id = this.increment
+                this.editTodo.id = this.increment
             }
-
-            this.$emit('save', newTodo)
-            
-            // if (!this.isValidTodo(newTodo)) {
-            //     return
-            // }
-
-            // if (newTodo.title == null) {
-            //     newTodo.title = 'Untitled'
-            // } else if (newTodo.title.trim().length == 0) {
-            //     newTodo.title = 'Untitled'
-            // }
-
-            // if (this.todo == undefined) {
-            //     newTodo.id = this.increment
-            //     this.addTodo(newTodo)
-            // } else {
-            //     this.updateTodo(newTodo)
-            // }
-            
-            // this.backToList()
+            this.$emit('save', this.editTodo)
         },
         backToList() {
             this.$router.push({name: 'todo-list'})
-        },
-        isValidTodo(todo) {
-            if (todo.title === null && todo.description === null) {
-                return false
-            }
-            
-            if (todo.description !== null) {
-                if (todo.description.trim().length == 0) {
-                    return false
-                }
-            }
-
-            return true
         }
     }
 
